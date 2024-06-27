@@ -61,6 +61,7 @@ void SN74HC595GPIOComponent::write_gpio() {
   for (auto byte = this->output_bytes_.rbegin(); byte != this->output_bytes_.rend(); byte++) {
     for (int8_t i = 7; i >= 0; i--) {
       bool bit = (*byte >> i) & 1;
+      ESP_LOGD(TAG, "writing bit: %d %d", i, bit);
       this->data_pin_->digital_write(bit);
       delay_microseconds_safe(1000);
       this->clock_pin_->digital_write(true);
