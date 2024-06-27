@@ -7,7 +7,7 @@ namespace sn74hc595 {
 static const char *const TAG = "sn74hc595";
 
 void SN74HC595Component::pre_setup_() {
-  ESP_LOGCONFIG(TAG, "Setting up SN74HC595... (fixed)");
+  ESP_LOGCONFIG(TAG, "Setting up SN74HC595...");
 
   if (this->have_oe_pin_) {  // disable output
     this->oe_pin_->setup();
@@ -41,7 +41,7 @@ void SN74HC595SPIComponent::setup() {
 }
 #endif
 
-void SN74HC595Component::dump_config() { ESP_LOGCONFIG(TAG, "SN74HC595:"); }
+void SN74HC595Component::dump_config() { ESP_LOGCONFIG(TAG, "SN74HC595: (fixed)"); }
 
 void SN74HC595Component::digital_write_(uint16_t pin, bool value) {
   if (pin >= this->sr_count_ * 8) {
