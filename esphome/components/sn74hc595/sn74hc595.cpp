@@ -12,12 +12,13 @@ void SN74HC595Component::pre_setup_() {
   if (this->have_oe_pin_) {  // disable output
     this->oe_pin_->setup();
     this->oe_pin_->digital_write(true);
+    delay_microseconds_safe(10);
   }
 }
 void SN74HC595Component::post_setup_() {
   this->latch_pin_->setup();
   this->latch_pin_->digital_write(false);
-
+  delay_microseconds_safe(10);
   // send state to shift register
   this->write_gpio();
 }
@@ -28,6 +29,7 @@ void SN74HC595GPIOComponent::setup() {
   this->data_pin_->setup();
   this->clock_pin_->digital_write(false);
   this->data_pin_->digital_write(false);
+  delay_microseconds_safe(10);
   this->post_setup_();
 }
 
@@ -60,8 +62,11 @@ void SN74HC595GPIOComponent::write_gpio() {
     for (int8_t i = 7; i >= 0; i--) {
       bool bit = (*byte >> i) & 1;
       this->data_pin_->digital_write(bit);
+      delay_microseconds_safe(10);
       this->clock_pin_->digital_write(true);
+      delay_microseconds_safe(10);
       this->clock_pin_->digital_write(false);
+      delay_microseconds_safe(10);
     }
   }
   SN74HC595Component::write_gpio();
@@ -81,11 +86,14 @@ void SN74HC595SPIComponent::write_gpio() {
 void SN74HC595Component::write_gpio() {
   // pulse latch to activate new values
   this->latch_pin_->digital_write(true);
+  delay_microseconds_safe(10);
   this->latch_pin_->digital_write(false);
+  delay_microseconds_safe(10);
 
   // enable output if configured
   if (this->have_oe_pin_) {
     this->oe_pin_->digital_write(false);
+    delay_microseconds_safe(10);
   }
 }
 
